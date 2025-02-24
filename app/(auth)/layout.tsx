@@ -8,7 +8,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
         <div className="">{children}</div>
       </section>
 
-      <section className="lg:w-[40%] bg-[#583F40] hidden lg:block">
+      <section className="lg:w-[40%] bg-[#333F4E] hidden lg:block">
         <div className="mt-[2%] flex justify-center">
           <Image
             src="/assets/icons/logo-full-brand-1.png"

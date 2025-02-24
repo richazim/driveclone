@@ -6,7 +6,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { NAV_ITEMS } from "@/constants";
 import { cn } from "@/lib/utils";
-import {Separator} from "@/components/ui/separator";
 
 interface PropsInterface {
   fullName: string;

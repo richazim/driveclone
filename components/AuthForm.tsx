@@ -106,7 +106,7 @@ const AuthForm = ({ type }: { type: AuthFormType }) => {
       ) : (
         <p>
           Vous n&apos;avez pas encore de compte ?{" "}
-          <Link href="sign-up" className="text-red-500">
+          <Link href="/sign-up" className="text-red-500">
             S&apos;inscrire
           </Link>
         </p>
