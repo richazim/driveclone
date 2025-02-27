@@ -4,6 +4,7 @@ import Image from "next/image";
 import {Input} from "@/components/ui/input";
 
 const Search = () => {
+
   return (
       <div className="h-full flex flex-row items-center">
         <div className="w-[70%] flex flex-row border items-center rounded-[24px] mx-[20px] my-auto">

@@ -4,6 +4,7 @@ import Image from "next/image";
 import Thumbnail from "@/components/Thumbnail";
 
 const FileUploader = () => {
+
   return (
       <div className="flex flex-col items-start">
         <input className="hidden"/>

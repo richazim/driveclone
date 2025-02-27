@@ -16,22 +16,22 @@ import {
 import { ChartConfig, ChartContainer } from "@/components/ui/chart"
 
 
-const chartData = [
-    { size: 200, used: 10, fill: "red" },
-]
-const chartConfig = {
-    size: {
-        label: "Size",
-    },
-    used: {
-        label: "Used",
-        color: "red",
-    }
-} satisfies ChartConfig
-
-
 
 const Chart = () => {
+
+    const chartData = [
+        { size: 200, used: 10, fill: "red" },
+    ]
+    const chartConfig = {
+        size: {
+            label: "Size",
+        },
+        used: {
+            label: "Used",
+            color: "red",
+        }
+    } satisfies ChartConfig
+
   return (
       <Card className="grid xl:grid-cols-2 grid-cols-1 py-5">
           <CardContent className="py-0 flex justify-center items-center">

@@ -5,6 +5,7 @@ import {Button} from "@/components/ui/button";
 import Image from "next/image";
 
 const Header = ({style}: {style: string}) => {
+
   return (
       <header className={style + " " + "hidden w-full sm:flex flex-row justify-between py-[10px]" }>
           <div className="flex-1">

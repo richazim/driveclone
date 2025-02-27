@@ -1,9 +1,11 @@
 import React from 'react';
 import Sort from "@/components/Sort";
 import Card from "@/components/Card";
+import {USER_FILES} from "@/constants";
 
 
 const Page = () => {
+
     return (
         <div className="p-[30px]">
             <section>
@@ -22,9 +24,9 @@ const Page = () => {
 
             {true ? (
                 <section className="my-[50px] grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-[20px]">
-                    {[0,1,2,3].map(item => (
-                        <div key={item}>
-                            <Card/>
+                    {USER_FILES.map((item, key) => (
+                        <div key={key}>
+                            <Card image={item.icon} fileName={item.fileName} date={item.date} creator={item.creator}/>
                         </div>
                     ))}
                 </section>

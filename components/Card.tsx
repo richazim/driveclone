@@ -10,27 +10,35 @@ import {
 } from "@/components/ui/card"
 import Image from "next/image";
 import ActionDropdown from "@/components/ActionDropdown";
+import {images} from "next/dist/build/webpack/config/blocks/images";
 
-const Card = () => {
+const Card = ({
+                  fileName,
+                  image,
+                  size,
+                  date,
+                  creator
+              }: {fileName: string, image: string, size: number, date: string, creator: string}) => {
+
   return (
       <CardFromShadCN className="">
         <CardHeader>
             <div className="flex justify-between">
-                <Image src="/assets/icons/images.svg" alt="" width={30} height={30} />
+                <Image src={image} alt="" width={30} height={30} />
                 <div className="flex flex-col items-center justify-between">
-                    <ActionDropdown/>
-                    <p>238.7 <span>KB</span></p>
+                    <ActionDropdown filename={fileName}/>
+                    <p>{size} <span>KB</span></p>
                 </div>
             </div>
         </CardHeader>
 
         <CardContent>
-          <p>fichier.png</p>
+          <p>{fileName}</p>
         </CardContent>
 
         <CardFooter className="flex flex-col items-start">
-            <p>3:31am, 15 Feb</p>
-          <p>By: <span>Azim</span></p>
+            <p>{date}</p>
+          <p>By: <span>{creator}</span></p>
         </CardFooter>
       </CardFromShadCN>
   );

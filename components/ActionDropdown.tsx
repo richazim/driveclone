@@ -10,22 +10,24 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import Image from "next/image";
+import {DROPDOWN_MENU_ITEMS} from "@/constants";
 
 
-const ActionDropdown = () => {
+const ActionDropdown = ({filename}: {filename: string}) => {
+
   return (
       <DropdownMenu>
         <DropdownMenuTrigger>
           <Image src="/assets/icons/dots.svg" alt="" width={20} height={20}/>
         </DropdownMenuTrigger>
         <DropdownMenuContent onCloseAutoFocus={(event) => {event.preventDefault()}}>
-          <DropdownMenuLabel>filename.jpg</DropdownMenuLabel>
+          <DropdownMenuLabel>{filename}</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem><Image src="/assets/icons/edit.svg" alt="" width={20} height={20}/> Rename</DropdownMenuItem>
-          <DropdownMenuItem><Image src="/assets/icons/info.svg" alt="" width={20} height={20}/> Details</DropdownMenuItem>
-          <DropdownMenuItem><Image src="/assets/icons/share.svg" alt="" width={20} height={20}/> Share</DropdownMenuItem>
-          <DropdownMenuItem><Image src="/assets/icons/download.svg" alt="" width={20} height={20}/> Download</DropdownMenuItem>
-          <DropdownMenuItem><Image src="/assets/icons/delete.svg" alt="" width={20} height={20}/> Delete</DropdownMenuItem>
+            {
+                DROPDOWN_MENU_ITEMS.map((item, index) => (
+                    <DropdownMenuItem key={index}><Image src={item.icon} alt="" width={20} height={20}/> {item.label}</DropdownMenuItem>
+                ))
+            }
         </DropdownMenuContent>
       </DropdownMenu>
 

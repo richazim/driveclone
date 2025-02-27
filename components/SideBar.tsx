@@ -14,6 +14,7 @@ interface PropsInterface {
 }
 
 const SideBar = ({ fullName, avatarUrl, email }: PropsInterface) => {
+
   const pathname = usePathname();
 
   return (

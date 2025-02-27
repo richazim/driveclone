@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import { Toaster } from "@/components/ui/toaster";
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
+
   return (
     <main className="flex flex-row w-screen scroll-smooth">
       <SideBar fullName="S. Azim" email="saibouazim90@gmail.com" avatarUrl="" />

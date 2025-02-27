@@ -1,39 +1,41 @@
 import Image from "next/image";
 import Chart from "@/components/Chart";
 import Link from "next/link";
-import { USAGE_SUMMARY_SAMPLE } from "@/constants";
 import {Separator} from "@/components/ui/separator";
 import FormattedDateTime from "@/components/FormattedDateTime";
 import Thumbnail from "@/components/Thumbnail";
 import ActionDropdown from "@/components/ActionDropdown";
+import {NAV_ITEMS_SUMMARIES, RECENT_FILES} from "@/constants";
+import {convertKilobytesToCorrectForma} from "@/lib/utils";
 
 export default function Dashboard() {
+
   return (
     <div className="flex md:flex-row flex-col p-[50px] gap-[50px]">
       <section className="md:w-[50%] w-[100%]">
         <Chart />
 
         <div className="mt-[50px] grid md:grid-cols-2 grid-cols-1 gap-[50px] ">
-          {[0, 1, 2, 3].map((item) => (
-            <li key={item} className="">
-              <Link href={USAGE_SUMMARY_SAMPLE[item].url} className="block relative rounded-[20px] text-center bg-white">
+          {NAV_ITEMS_SUMMARIES.map((item, key) => (
+            <li key={key} className="">
+              <Link href={item.url} className="block relative rounded-[20px] text-center bg-white">
                 <div className="relative h-[50px]">
                   <Image
-                    src={USAGE_SUMMARY_SAMPLE[item].icon}
+                    src={item.icon}
                     alt=""
                     width={100}
                     height={100}
                     className="-left-[6px] -top-[14px] absolute"
                   />
 
-                  <h4 className="absolute right-[20px] top-[15px]">0.0 MB</h4>
+                  <h4 className="absolute right-[20px] top-[15px]">{convertKilobytesToCorrectForma(item.size)}</h4>
                 </div>
 
-                <h5>Documents</h5>
+                <h5>{item.title}</h5>
 
                   <Separator className="w-[100px] mx-auto my-[20px]"/>
 
-                  <FormattedDateTime/>
+                  <FormattedDateTime date={item.latestDate}/>
               </Link>
             </li>
           ))}
@@ -44,19 +46,19 @@ export default function Dashboard() {
           <h2 className="font-bold text-2xl">Fichiers récemment uploadés</h2>
           {true ? (
               <ul className="">
-                  {[0, 1, 2, 3].map((item) => (
-                      <li key={item} className="my-[10px] ">
+                  {RECENT_FILES.map((item, key) => (
+                      <li key={key} className="my-[10px] ">
                           <Link href="/" className="block flex flex-row justify-between items-center">
-                              <Thumbnail/>
+                              <Thumbnail filePath={item.icon}/>
 
                               <div className="flex-1 flex justify-between pl-[10px]">
                                   <div className="text-left flex-1">
-                                      <p>Nom_du_fichier</p>
+                                      <p>{item.fileName}</p>
 
-                                      <FormattedDateTime className="font-light text-[10px]"/>
+                                      <FormattedDateTime date="2020" className="font-light text-[10px]"/>
                                   </div>
 
-                                  <ActionDropdown/>
+                                  <ActionDropdown filename={item.fileName}/>
                               </div>
                           </Link>
                       </li>

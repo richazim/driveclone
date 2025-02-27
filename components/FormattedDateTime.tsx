@@ -1,9 +1,11 @@
 import React from "react";
+import {formateDate} from "@/lib/utils";
 
-const FormattedDateTime = ({className}: {className?: string}) => {
+const FormattedDateTime = ({className, date}: {className?: string, date: string}) => {
+
   return (
       <div className={className + " " + ""}>
-        3:31am, 15 Feb
+          {formateDate(date)}
       </div>
   );
 };

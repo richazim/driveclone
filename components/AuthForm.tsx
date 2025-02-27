@@ -15,30 +15,14 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { OTPModal } from "@/components/OTPModal";
+import {getFormSchema} from "@/lib/schemas/auth";
 
-type AuthFormType = "sign-up" | "sign-in";
 
-const getFormSchema = (type: AuthFormType) => {
-  return z.object({
-    fullName:
-      type === "sign-up"
-        ? z
-            .string({
-              message: "Le nom complet doit contenir au moins deux caractères",
-            })
-            .min(2, {
-              message: "Le nom complet doit contenir au moins deux caractères",
-            })
-            .max(50, {
-              message: "Le nom complet ne doit pas dépasser 50 caractères",
-            })
-        : z.string({ message: "Au moins deux caracteres" }).optional(),
-    email: z.string().email({ message: "L'adresse e-mail est invalide" }),
-  });
-};
 
 const AuthForm = ({ type }: { type: AuthFormType }) => {
+
   const formSchema = getFormSchema(type);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -112,7 +96,7 @@ const AuthForm = ({ type }: { type: AuthFormType }) => {
         </p>
       )}
 
-      {true && <OTPModal open={true} email="saibouazim90@gmail.com" />}
+      {false && <OTPModal open={true} email="saibouazim90@gmail.com" />}
     </>
   );
 };

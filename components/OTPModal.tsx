@@ -18,6 +18,8 @@ import {
 import Link from "next/link";
 
 export function OTPModal({ open, email }: { open: boolean; email: string }) {
+
+
   return (
     <Dialog defaultOpen={open}>
       <DialogContent className="sm:max-w-[425px]">
