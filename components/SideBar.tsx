@@ -12,7 +12,7 @@ interface Props {
   email: string;
 }
 
-const Sidebar = ({ fullName, avatar, email }: Props) => {
+const SideBar = ({ fullName, avatar, email }: Props) => {
   const pathname = usePathname();
 
   return (
@@ -62,4 +62,4 @@ const Sidebar = ({ fullName, avatar, email }: Props) => {
     </aside>
   );
 };
-export default Sidebar;
+export default SideBar; 
