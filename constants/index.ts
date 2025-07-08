@@ -1,6 +1,4 @@
-
-
-export const NAV_ITEMS: NavItemType[] = [
+export const navItems = [
   {
     name: "Dashboard",
     icon: "/assets/icons/dashboard.svg",
@@ -22,47 +20,15 @@ export const NAV_ITEMS: NavItemType[] = [
     url: "/media",
   },
   {
-    name: "Divers",
+    name: "Others",
     icon: "/assets/icons/others.svg",
     url: "/others",
   },
 ];
 
-
-export const NAV_ITEMS_SUMMARIES: NavItemSummaryType[] = [
+export const actionsDropdownItems = [
   {
-    title: "Documents",
-    size: 20,
-    latestDate: "3:31am, 15 Feb",
-    icon: "/assets/icons/file-document-light.svg",
-    url: "/documents",
-  },
-  {
-    title: "Images",
-    size: 20,
-    latestDate: "2020-02-02",
-    icon: "/assets/icons/file-image-light.svg",
-    url: "/images",
-  },
-  {
-    title: "Media",
-    size: 20,
-    latestDate: "3:31am, 15 Feb",
-    icon: "/assets/icons/file-video-light.svg",
-    url: "/media",
-  },
-  {
-    title: "Divers",
-    size: 20,
-    latestDate: "2020-02-02",
-    icon: "/assets/icons/file-other-light.svg",
-    url: "/others",
-  },
-];
-
-export const DROPDOWN_MENU_ITEMS : DropdownMenuItemInterface[] = [
-  {
-    label: "Renommer",
+    label: "Rename",
     icon: "/assets/icons/edit.svg",
     value: "rename",
   },
@@ -72,124 +38,50 @@ export const DROPDOWN_MENU_ITEMS : DropdownMenuItemInterface[] = [
     value: "details",
   },
   {
-    label: "Partager",
+    label: "Share",
     icon: "/assets/icons/share.svg",
     value: "share",
   },
   {
-    label: "Télécharger",
-    icon: "assets/icons/download.svg",
-    value: "telecharger",
+    label: "Download",
+    icon: "/assets/icons/download.svg",
+    value: "download",
   },
-
   {
-    label: "Supprimer",
-    icon: "assets/icons/download.svg",
+    label: "Delete",
+    icon: "/assets/icons/delete.svg",
     value: "delete",
-  }
+  },
 ];
 
-export const RECENT_FILES: RecentFileInterface[] = [
+export const sortTypes = [
   {
-    fileName: "1.jpg",
-    icon: "/assets/images/files.png",
-    date: "2020-02-02"
+    label: "Date created (newest)",
+    value: "$createdAt-desc",
   },
   {
-    fileName: "2.jpg",
-    icon: "/assets/images/files.png",
-    date: "2020-02-02"
+    label: "Created Date (oldest)",
+    value: "$createdAt-asc",
   },
   {
-    fileName: "3.jpg",
-    icon: "/assets/images/files.png",
-    date: "2020-02-02"
+    label: "Name (A-Z)",
+    value: "name-asc",
   },
   {
-    fileName: "4.jpg",
-    icon: "/assets/images/files.png",
-    date: "2020-02-02"
+    label: "Name (Z-A)",
+    value: "name-desc",
   },
   {
-    fileName: "5.jpg",
-    icon: "/assets/images/files.png",
-    date: "2020-02-02"
+    label: "Size (Highest)",
+    value: "size-desc",
   },
   {
-    fileName: "6.jpg",
-    icon: "/assets/images/files.png",
-    date: "2020-02-02"
-  }
-]
-
-export const SORT_TYPES: SortTypeInterface[] = [
-  {
-    label: "Date de création (croissance)",
-    value: "$createAt_desc",
+    label: "Size (Lowest)",
+    value: "size-asc",
   },
-  {
-    label: "Date de création (décroissance)",
-    value: "$createdAt_asc",
-  },
-  {
-    label: "Nom (croissant)",
-    value: "$name_asc",
-  },
-  {
-    label: "Nom (décroissance)",
-    value: "$name_asc"
-  },
-  {
-    label: "Taille (croissance)",
-    value: "$size_asc"
-  },
-  {
-    label: "Taille (décroissance)",
-    value: "$size_desc"
-  }
 ];
 
-export const USER_FILES: UserFileInterface[] = [
-  {
-    fileName: "1.png",
-    icon: "/assets/images/files.png",
-    size: 200,
-    date: "2020-02-02",
-    creator: "Azim"
-  },
-  {
-    fileName: "2.png",
-    icon: "/assets/images/files.png",
-    size: 200,
-    date: "2020-02-02",
-    creator: "Azim S"
-  },
-  {
-    fileName: "3.png",
-    icon: "/assets/images/files.png",
-    size: 200,
-    date: "2020-02-02",
-    creator: "Azim SA"
-  },
-  {
-    fileName: "4.png",
-    icon: "/assets/images/files.png",
-    size: 200,
-    date: "2020-02-02",
-    creator: "Azim"
-  },
-  {
-    fileName: "5.png",
-    icon: "/assets/images/files.png",
-    size: 200,
-    date: "2020-02-02",
-    creator: "Azim"
-  },
-  {
-    fileName: "6.png",
-    icon: "/assets/images/files.png",
-    size: 200,
-    date: "2020-02-02",
-    creator: "Azim"
-  }
-]
+export const avatarPlaceholderUrl =
+  "https://freerangestock.com/sample/116134/businessman-avatar-.jpg";
+
+export const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB

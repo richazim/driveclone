@@ -1,34 +1,40 @@
 "use client";
 
-import React from "react";
-
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import {SORT_TYPES} from "@/constants";
-
+} from "@/components/ui/select";
+import { usePathname, useRouter } from "next/navigation";
+import { sortTypes } from "@/constants";
 
 const Sort = () => {
+  const path = usePathname();
+  const router = useRouter();
+
+  const handleSort = (value: string) => {
+    router.push(`${path}?sort=${value}`);
+  };
 
   return (
-      <Select defaultValue="$createdAt_asc">
-        <SelectTrigger className="w-[250px] border-0 shadow-xl outline-0 ring-0 focus:outline-none focus:ring-0 rounded-[12px]">
-          <SelectValue placeholder="Theme" />
-        </SelectTrigger>
-
-        <SelectContent>
-            {
-                SORT_TYPES.map((type, index) => (
-                    <SelectItem key={index} value={type.value}>{type.label}</SelectItem>
-                ))
-            }
-        </SelectContent>
-      </Select>
-
+    <Select onValueChange={handleSort} defaultValue={sortTypes[0].value}>
+      <SelectTrigger className="sort-select">
+        <SelectValue placeholder={sortTypes[0].value} />
+      </SelectTrigger>
+      <SelectContent className="sort-select-content">
+        {sortTypes.map((sort) => (
+          <SelectItem
+            key={sort.label}
+            className="shad-select-item"
+            value={sort.value}
+          >
+            {sort.label}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   );
 };
 

@@ -1,43 +1,135 @@
-import React from "react";
-import {Button} from "@/components/ui/button";
+"use client";
+
+import React, { useCallback, useState } from "react";
+
+import { useDropzone } from "react-dropzone";
+import { Button } from "@/components/ui/button";
+import { cn, convertFileToUrl, getFileType } from "@/lib/utils";
 import Image from "next/image";
 import Thumbnail from "@/components/Thumbnail";
+import { MAX_FILE_SIZE } from "@/constants";
+import { useToast } from "@/hooks/use-toast";
+import { uploadFile } from "@/lib/actions/file.actions";
+import { usePathname } from "next/navigation";
 
-const FileUploader = () => {
+interface Props {
+  ownerId: string;
+  accountId: string;
+  className?: string;
+}
+
+const FileUploader = ({ ownerId, accountId, className }: Props) => {
+  const path = usePathname();
+  const { toast } = useToast();
+  const [files, setFiles] = useState<File[]>([]);
+
+  const onDrop = useCallback(
+    async (acceptedFiles: File[]) => {
+      setFiles(acceptedFiles);
+
+      const uploadPromises = acceptedFiles.map(async (file) => {
+        if (file.size > MAX_FILE_SIZE) {
+          setFiles((prevFiles) =>
+            prevFiles.filter((f) => f.name !== file.name),
+          );
+
+          return toast({
+            description: (
+              <p className="body-2 text-white">
+                <span className="font-semibold">{file.name}</span> is too large.
+                Max file size is 50MB.
+              </p>
+            ),
+            className: "error-toast",
+          });
+        }
+
+        return uploadFile({ file, ownerId, accountId, path }).then(
+          (uploadedFile) => {
+            if (uploadedFile) {
+              setFiles((prevFiles) =>
+                prevFiles.filter((f) => f.name !== file.name),
+              );
+            }
+          },
+        );
+      });
+
+      await Promise.all(uploadPromises);
+    },
+    [ownerId, accountId, path],
+  );
+
+  const { getRootProps, getInputProps } = useDropzone({ onDrop });
+
+  const handleRemoveFile = (
+    e: React.MouseEvent<HTMLImageElement, MouseEvent>,
+    fileName: string,
+  ) => {
+    e.stopPropagation();
+    setFiles((prevFiles) => prevFiles.filter((file) => file.name !== fileName));
+  };
 
   return (
-      <div className="flex flex-col items-start">
-        <input className="hidden"/>
+    <div {...getRootProps()} className="cursor-pointer">
 
-        <Button className="rounded-[27px]">
-          <Image src="/assets/icons/upload.svg" alt="" width={24} height={24}/>
+      <input {...getInputProps()} />
 
-          <p>Upload</p>
-        </Button>
+      <Button type="button" className={cn("uploader-button", className)}>
+        <Image
+          src="/assets/icons/upload.svg"
+          alt="upload"
+          width={24}
+          height={24}
+        />{" "}
+        <p>Upload</p>
+      </Button>
 
-        {true && (
-            <ul className="border w-[300px] rounded-[27px] p-[10px] absolute bottom-[20px] right-[20px] bg-white">
-              <h4 className="text-start">Uploading</h4>
+      {files.length > 0 && (
+        <ul className="uploader-preview-list">
+          <h4 className="h4 text-light-100">Uploading</h4>
 
-              {[0].map((item) => {
-                return (
-                    <li key={item} className="flex flex-row p-[10px] border my-2 rounded-2xl">
-                      <div className="flex-1 flex flex-row w-[200px]">
-                        <Thumbnail/>
+          {files.map((file, index) => {
+            const { type, extension } = getFileType(file.name);
 
-                        <div className="ml-[20px] flex-1 text-start">
-                          file_name
-                          <Image src="/assets/icons/file-loader.gif" alt="" width={80} height={26}/>
-                        </div>
-                      </div>
+            return (
+              <li
+                key={`${file.name}-${index}`}
+                className="uploader-preview-item"
+              >
+                <div className="flex items-center gap-3">
+                  
+                  <Thumbnail
+                    type={type}
+                    extension={extension}
+                    url={convertFileToUrl(file)}
+                  />
 
-                      <Image src="/assets/icons/remove.svg" alt="" width={24} height={24}/>
-                    </li>
-                )
-              })}
-            </ul>
-        )}
-      </div>
+                  <div className="preview-item-name">
+                    {file.name}
+                    <Image
+                      src="/assets/icons/file-loader.gif"
+                      width={80}
+                      height={26}
+                      alt="Loader"
+                    />
+                  </div>
+
+                </div>
+
+                <Image
+                  src="/assets/icons/remove.svg"
+                  width={24}
+                  height={24}
+                  alt="Remove"
+                  onClick={(e) => handleRemoveFile(e, file.name)}
+                />
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </div>
   );
 };
 

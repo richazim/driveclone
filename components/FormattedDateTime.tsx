@@ -1,13 +1,17 @@
 import React from "react";
-import {formateDate} from "@/lib/utils";
+import { cn, formatDateTime } from "@/lib/utils";
 
-const FormattedDateTime = ({className, date}: {className?: string, date: string}) => {
-
+export const FormattedDateTime = ({
+  date,
+  className,
+}: {
+  date: string;
+  className?: string;
+}) => {
   return (
-      <div className={className + " " + ""}>
-          {formateDate(date)}
-      </div>
+    <p className={cn("body-1 text-light-200", className)}>
+      {formatDateTime(date)}
+    </p>
   );
 };
-
 export default FormattedDateTime;

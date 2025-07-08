@@ -1,73 +1,102 @@
 import Image from "next/image";
-import Chart from "@/components/Chart";
 import Link from "next/link";
-import {Separator} from "@/components/ui/separator";
-import FormattedDateTime from "@/components/FormattedDateTime";
-import Thumbnail from "@/components/Thumbnail";
-import ActionDropdown from "@/components/ActionDropdown";
-import {NAV_ITEMS_SUMMARIES, RECENT_FILES} from "@/constants";
-import {convertKilobytesToCorrectForma} from "@/lib/utils";
+import { Models } from "node-appwrite";
 
-export default function Dashboard() {
+import ActionDropdown from "@/components/ActionDropdown";
+import { Chart } from "@/components/Chart";
+import { FormattedDateTime } from "@/components/FormattedDateTime";
+import { Thumbnail } from "@/components/Thumbnail";
+import { Separator } from "@/components/ui/separator";
+import { getFiles, getTotalSpaceUsed } from "@/lib/actions/file.actions";
+import { convertFileSize, getUsageSummary } from "@/lib/utils";
+
+const Dashboard = async () => {
+  // Parallel requests
+  const [files, totalSpace] = await Promise.all([
+    getFiles({ types: [], limit: 10 }),
+    getTotalSpaceUsed(),
+  ]);
+
+  // Get usage summary
+  const usageSummary = getUsageSummary(totalSpace);
 
   return (
-    <div className="flex md:flex-row flex-col p-[50px] gap-[50px]">
-      <section className="md:w-[50%] w-[100%]">
-        <Chart />
+    <div className="dashboard-container">
+      <section>
+        
+        <Chart used={totalSpace.used} />
 
-        <div className="mt-[50px] grid md:grid-cols-2 grid-cols-1 gap-[50px] ">
-          {NAV_ITEMS_SUMMARIES.map((item, key) => (
-            <li key={key} className="">
-              <Link href={item.url} className="block relative rounded-[20px] text-center bg-white">
-                <div className="relative h-[50px]">
+        {/* Uploaded file type summaries */}
+        <ul className="dashboard-summary-list">
+          {usageSummary.map((summary) => (
+            <Link
+              href={summary.url}
+              key={summary.title}
+              className="dashboard-summary-card"
+            >
+              <div className="space-y-4">
+                <div className="flex justify-between gap-3">
                   <Image
-                    src={item.icon}
-                    alt=""
+                    src={summary.icon}
                     width={100}
                     height={100}
-                    className="-left-[6px] -top-[14px] absolute"
+                    alt="uploaded image"
+                    className="summary-type-icon"
                   />
-
-                  <h4 className="absolute right-[20px] top-[15px]">{convertKilobytesToCorrectForma(item.size)}</h4>
+                  <h4 className="summary-type-size">
+                    {convertFileSize(summary.size) || 0}
+                  </h4>
                 </div>
 
-                <h5>{item.title}</h5>
-
-                  <Separator className="w-[100px] mx-auto my-[20px]"/>
-
-                  <FormattedDateTime date={item.latestDate}/>
-              </Link>
-            </li>
+                <h5 className="summary-type-title">{summary.title}</h5>
+                <Separator className="bg-light-400" />
+                <FormattedDateTime
+                  date={summary.latestDate}
+                  className="text-center"
+                />
+              </div>
+            </Link>
           ))}
-        </div>
+        </ul>
       </section>
 
-      <section className="md:w-[50%] w-[100%] p-[20px] bg-white">
-          <h2 className="font-bold text-2xl">Fichiers récemment uploadés</h2>
-          {true ? (
-              <ul className="">
-                  {RECENT_FILES.map((item, key) => (
-                      <li key={key} className="my-[10px] ">
-                          <Link href="/" className="block flex flex-row justify-between items-center">
-                              <Thumbnail filePath={item.icon}/>
+      {/* Recent files uploaded */}
+      <section className="dashboard-recent-files">
+        <h2 className="h3 xl:h2 text-light-100">Recent files uploaded</h2>
+        {files.documents.length > 0 ? (
+          <ul className="mt-5 flex flex-col gap-5">
+            {files.documents.map((file: Models.Document) => (
+              <Link
+                href={file.url}
+                target="_blank"
+                className="flex items-center gap-3"
+                key={file.$id}
+              >
+                <Thumbnail
+                  type={file.type}
+                  extension={file.extension}
+                  url={file.url}
+                />
 
-                              <div className="flex-1 flex justify-between pl-[10px]">
-                                  <div className="text-left flex-1">
-                                      <p>{item.fileName}</p>
-
-                                      <FormattedDateTime date="2020" className="font-light text-[10px]"/>
-                                  </div>
-
-                                  <ActionDropdown filename={item.fileName}/>
-                              </div>
-                          </Link>
-                      </li>
-                  ))}
-              </ul>
-          ): (
-              <p>Pas encore de fichiers téléverser</p>
-          )}
+                <div className="recent-file-details">
+                  <div className="flex flex-col gap-1">
+                    <p className="recent-file-name">{file.name}</p>
+                    <FormattedDateTime
+                      date={file.$createdAt}
+                      className="caption"
+                    />
+                  </div>
+                  <ActionDropdown file={file} />
+                </div>
+              </Link>
+            ))}
+          </ul>
+        ) : (
+          <p className="empty-list">No files uploaded</p>
+        )}
       </section>
     </div>
   );
-}
+};
+
+export default Dashboard;
