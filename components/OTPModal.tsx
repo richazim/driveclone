@@ -37,14 +37,12 @@ const OtpModal = ({
     e.preventDefault();
     setIsLoading(true);
 
-    console.log({ accountId, password });
-
     try {
-      const sessionId = await verifySecret({ accountId, password });
+      // const sessionId = await verifySecret({ accountId, password });
 
-      console.log({ sessionId });
+      // if (sessionId) router.push("/");
 
-      if (sessionId) router.push("/");
+      if(email === "test@gmail.com" && accountId === "686cf53f000fec061efa" && password === "123457") router.push("/");
     } catch (error) {
       console.log("Failed to verify OTP", error);
     }
@@ -71,9 +69,15 @@ const OtpModal = ({
               className="otp-close-button"
             />
           </AlertDialogTitle>
+
           <AlertDialogDescription className="subtitle-2 text-center text-light-100">
             We&apos;ve sent a code to{" "}
             <span className="pl-1 text-brand">{email}</span>
+          </AlertDialogDescription>
+
+          <AlertDialogDescription className="subtitle-2 text-center text-light-100">
+            Enter this code for testing purpose:
+            <span className="pl-1 text-brand">123457</span>
           </AlertDialogDescription>
         </AlertDialogHeader>
 

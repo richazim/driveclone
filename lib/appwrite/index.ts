@@ -11,9 +11,9 @@ export const createSessionClient = async () => {
 
   const session = (await cookies()).get("appwrite-session");
 
-  if (!session || !session.value) throw new Error("No session");
+  // if (!session || !session.value) throw new Error("No session"); // Temporary shutdown
 
-  client.setSession(session.value);
+  // client.setSession(session.value); // Temporary shutdown
 
   return {
     get account() {

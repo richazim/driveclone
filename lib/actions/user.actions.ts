@@ -46,7 +46,10 @@ export const createAccount = async ({
 }) => {
   const existingUser = await getUserByEmail(email);
 
-  const accountId = await sendEmailOTP({ email });
+  // const accountId = await sendEmailOTP({ email });
+  const accountId = "686cf53f000fec061efa"
+
+
   if (!accountId) throw new Error("Failed to send an OTP");
 
   if (!existingUser) {
@@ -97,12 +100,15 @@ export const getCurrentUser = async () => {
   try {
     const { databases, account } = await createSessionClient();
 
-    const result = await account.get();
+    // const result = await account.get(); // Get the current account from Appwrite using the local cookie.
+    // const accountId = result.$id; // Normally
+
+    const accountId = "686cf53f000fec061efa"; // To allow others users to try it
 
     const user = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.usersCollectionId,
-      [Query.equal("accountId", result.$id)],
+      [Query.equal("accountId", accountId)],
     );
 
     if (user.total <= 0) return null;
@@ -132,7 +138,7 @@ export const signInUser = async ({ email }: { email: string }) => {
 
     // User exists, send OTP
     if (existingUser) {
-      await sendEmailOTP({ email });
+      // await sendEmailOTP({ email });
       return parseStringify({ accountId: existingUser.accountId });
     }
 

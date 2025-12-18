@@ -35,14 +35,15 @@ const authFormSchema = (formType: FormType) => {
 const AuthForm = ({ type }: { type: FormType }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [accountId, setAccountId] = useState(null);
+  const [accountId, setAccountId] = useState<string | null>(null);
 
   const formSchema = authFormSchema(type);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       fullName: "",
-      email: "",
+      email: "test@gmail.com",
     },
   });
 
@@ -51,17 +52,21 @@ const AuthForm = ({ type }: { type: FormType }) => {
     setErrorMessage("");
 
     try {
-      const user =
-        type === "sign-up"
-          ? await createAccount({
-              fullName: values.fullName || "",
-              email: values.email,
-            })
-          : await signInUser({ email: values.email });
+      // const user =
+      //   type === "sign-up"
+      //     ? await createAccount({
+      //         fullName: values.fullName || "",
+      //         email: values.email,
+      //       })
+      //     : await signInUser({ email: values.email });
 
-      setAccountId(user.accountId);
+      // setAccountId(user.accountId);
+
+      /* Make Everyone Able To Try It Online */
+      setAccountId("686cf53f000fec061efa");
+
     } catch {
-      setErrorMessage("Failed to create account. Please try again.");
+      setErrorMessage("Failed to create or sign in the account. Please try with the default credentials.");
     } finally {
       setIsLoading(false);
     }
@@ -69,11 +74,14 @@ const AuthForm = ({ type }: { type: FormType }) => {
 
   return (
     <>
+
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="auth-form">
+
           <h1 className="form-title">
             {type === "sign-in" ? "Sign In" : "Sign Up"}
           </h1>
+
           {type === "sign-up" && (
             <FormField
               control={form.control}
@@ -126,7 +134,6 @@ const AuthForm = ({ type }: { type: FormType }) => {
             disabled={isLoading}
           >
             {type === "sign-in" ? "Sign In" : "Sign Up"}
-
             {isLoading && (
               <Image
                 src="/assets/icons/loader.svg"
@@ -139,6 +146,10 @@ const AuthForm = ({ type }: { type: FormType }) => {
           </Button>
 
           {errorMessage && <p className="error-message">*{errorMessage}</p>}
+
+          {type === "sign-in"
+                && <p className="text-red">Enter this email for testing purpose: <span className="font-bold">test@gmail.com</span></p>
+          }
 
           <div className="body-2 flex justify-center">
             <p className="text-light-100">
@@ -154,12 +165,14 @@ const AuthForm = ({ type }: { type: FormType }) => {
               {type === "sign-in" ? "Sign Up" : "Sign In"}
             </Link>
           </div>
+
         </form>
       </Form>
 
       {accountId && (
         <OtpModal email={form.getValues("email")} accountId={accountId} />
       )}
+
     </>
   );
 };
