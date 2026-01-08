@@ -1,7 +1,9 @@
+import './globals.css';
+
 import type { Metadata } from "next";
 import { Poppins } from 'next/font/google'
 
-import "./globals.css";
+import { appName } from "@/constants";
 
 const poppins = Poppins({
     subsets: ['latin'],
@@ -10,8 +12,8 @@ const poppins = Poppins({
 })
 
 export const metadata: Metadata = {
-  title: "DriveClone",
-  description: "DriveClone - The open-source storage solution you need.",
+  title: `${appName}`,
+  description: `${appName} - The open-source storage solution you need.`,
 };
 
 export default function RootLayout({

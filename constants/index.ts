@@ -85,3 +85,5 @@ export const avatarPlaceholderUrl =
   "https://freerangestock.com/sample/116134/businessman-avatar-.jpg";
 
 export const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
+
+export const appName = "Appwrite Cloud Storage Services";
